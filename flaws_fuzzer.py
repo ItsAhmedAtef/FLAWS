@@ -210,9 +210,8 @@ def endpoints_checker( url, check_connection, delay, first_req, force, validate,
 
             if r.status_code in redirections_codes and 'Location' in r.headers:
                 print( '        ' + cyan(r.headers['Location']) )
-            elif recursive and r.status_code in [200, 403] and recursive_level < max_recursive:
-                sub_url = t + ('' if t.endswith('/') else '/')
-                database = endpoints_checker( sub_url, check_connection, delay, first_req, force, validate, exclude, recursive, save, recursive_level+1 )
+            elif recursive and r.status_code in [200, 403] and t.endswith('/') and recursive_level < max_recursive:
+                database = endpoints_checker( t, check_connection, delay, first_req, force, validate, exclude, recursive, save, recursive_level+1 )
 
         except requests.exceptions.SSLError:
             print( red('[!] Error: SSL Error! Try HTTP protocol.') )
