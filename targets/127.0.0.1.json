@@ -1,0 +1,14 @@
+{
+    "ports": {
+        "found": [],
+        "not_found": [],
+        "last_scan": ""
+    },
+    "subdomains": {
+        "not_found": [],
+        "last_scan": ""
+    },
+    "endpoints": {
+        "last_scan": ""
+    }
+}
