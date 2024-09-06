@@ -9,7 +9,7 @@ if __name__ != 'flaws_ls':
 import os
 
 from flaws_fuzzer import colored_codes
-from flaws_utils  import get_targets, get_parent_domain, get_sub_domains
+from flaws_utils  import get_targets, get_parent_domain, get_sub_domains, working_dir
 from flaws_utils  import get_target_host, load_database, green, cyan, red, yellow
 #########
 
@@ -86,7 +86,7 @@ def list_endpoints( endpoints_db={} ):
 def list_target( target ):
     host = get_target_host( target )
 
-    if os.path.isfile( os.path.join( 'targets', host.replace('*', 'WILDCARD') + '.json' ) ):
+    if os.path.isfile( os.path.join( working_dir, 'targets', host.replace('*', 'WILDCARD') + '.json' ) ):
         database = load_database( host )
 
         print( cyan('[~] Host: ') + host )
