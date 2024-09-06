@@ -10,7 +10,7 @@ import re
 import os
 
 from flaws_utils import get_target_host, get_target_port_or_none, get_targets, get_sub_domains
-from flaws_utils import is_valid_host, is_valid_port, random_value, delete_empty_target
+from flaws_utils import is_valid_host, is_valid_port, random_value, delete_empty_target, working_dir
 from flaws_utils import load_list, load_database, update_database, green, cyan, yellow, red
 #############
 
@@ -373,7 +373,7 @@ def subdomains_scanner( host, check_connection, delay, is_force, is_validate, ex
             found_subdomains.append(target)
 
             if save_results:
-                if not os.path.isfile(os.path.join( 'targets', target.replace('*', 'WILDCARD') + '.json' )):
+                if not os.path.isfile(os.path.join( working_dir, 'targets', target.replace('*', 'WILDCARD') + '.json' )):
                     update_database( target, load_database( target ) )
 
                 if '*' in subdomain:
@@ -403,7 +403,7 @@ def subdomains_scanner( host, check_connection, delay, is_force, is_validate, ex
             for part in subdomain_parts:
                 inner_subdomain += ('.' + part) if inner_subdomain else part
                 inner_target = subdomain[ (len(inner_subdomain)+1) : ] + '.' + host
-                if os.path.isfile(os.path.join( 'targets', inner_target.replace('*', 'WILDCARD') + '.json' )):
+                if os.path.isfile(os.path.join( working_dir, 'targets', inner_target.replace('*', 'WILDCARD') + '.json' )):
                     inner_db = load_database( inner_target )
                     if uphosts == '1':
                         while inner_subdomain in inner_db['subdomains']['not_found']:
