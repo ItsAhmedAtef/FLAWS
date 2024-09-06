@@ -11,6 +11,8 @@ import random
 import json
 #########
 
+working_dir = os.path.dirname(os.path.abspath( __file__ ))
+
 capital_chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 lower_chars   = 'abcdefghijklmnopqrstuvwxyz'
 numbers       = '0123456789'
@@ -117,7 +119,7 @@ def get_target_port_or_none( target ):
 def get_targets():
     targets = []
     try:
-        targets = os.listdir('targets')
+        targets = os.listdir( os.path.join(working_dir, 'targets') )
     except Exception:
         exit( red('[!] Error: Failed to list the targets folder!') )
 
@@ -168,7 +170,7 @@ def get_sub_domains( host , targets=None ):
 def delete_empty_target( host ):
     safe_delete = True
 
-    target_path = os.path.join( 'targets', host.replace('*', 'WILDCARD') + '.json' )
+    target_path = os.path.join( working_dir, 'targets', host.replace('*', 'WILDCARD') + '.json' )
     if os.path.isfile( target_path ):
         try:
             f = open( target_path, 'r' )
@@ -205,7 +207,7 @@ def load_database( host ):
         }
     }
 
-    target_path = os.path.join( 'targets', host.replace('*', 'WILDCARD') + '.json' )
+    target_path = os.path.join( working_dir, 'targets', host.replace('*', 'WILDCARD') + '.json' )
     if os.path.isfile( target_path ):
         try:
             f = open( target_path, 'r' )
@@ -217,7 +219,7 @@ def load_database( host ):
     return database
 
 def update_database( host, database ):
-    target_path = os.path.join( 'targets', host.replace('*', 'WILDCARD') + '.json' )
+    target_path = os.path.join( working_dir, 'targets', host.replace('*', 'WILDCARD') + '.json' )
     try:
         f = open( target_path, 'w' )
         json.dump( database, f )
@@ -229,7 +231,7 @@ def load_list( lists_name ):
     items = []
 
     try:
-        lists_path = os.path.join( 'lists', lists_name )
+        lists_path = os.path.join( working_dir, 'lists', lists_name )
         for list_file in os.listdir( lists_path ):
             list_file_path = os.path.join( lists_path, list_file )
             if os.path.isfile( list_file_path ) and os.access(list_file_path, os.R_OK):
